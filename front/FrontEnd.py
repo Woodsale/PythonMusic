@@ -24,7 +24,7 @@ class FrontEnd:
         self.stdscr.addstr(7,45, "l - Play library on playlist")
         self.stdscr.addstr(9,45, "ESC - Quit")
 
-        lib = "/home/pydynn/343/PythonMusic/library"
+        lib = "./media"
         liblist = os.listdir(lib)
         y = 6
         for mus in liblist:
