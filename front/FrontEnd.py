@@ -2,6 +2,10 @@ import curses
 import curses.textpad
 
 import sys
+import os
+
+from CLIexceptions.CLI_Audio_Exception import CLI_Audio_File_Exception
+from CLIexceptions.CLI_Audio_Exception import CLI_Audio_Screen_Size_Exception
 
 class FrontEnd:
 
