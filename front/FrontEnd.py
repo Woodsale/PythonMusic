@@ -10,14 +10,22 @@ import os
 from os import listdir
 
 class FrontEnd:
-
+#Class constructor. Takes Self and Player as parameters
     def __init__(self, player):
         self.player = player
         curses.wrapper(self.menu)
-
+#Creates the menu for the GUI. Adds Functionality for buttons used in the menu.
+#Takes Self and Args as parameters
     def menu(self, args):
         self.stdscr = curses.initscr()
         self.stdscr.border()
+	#checks with height and width of the current window. If height or width is too small. CLI_Audio_Screen_Size_Exception is thrown
+        ##https://askubuntu.com/questions/98181/how-to-get-screen-size-through-python-curses
+        height,width = self.stdscr.getmaxyx()
+        if (height<20):
+            raise CLI_Audio_Screen_Size_Exception("Screen size is too small. Increase the height of the screen to continue")
+        if (width<90):
+            raise CLI_Audio_Screen_Size_Exception("Screen size is too small. Increase the width of the screen to continue")
         self.stdscr.addstr(0,0, "cli-audio",curses.A_REVERSE)
         self.stdscr.addstr(5,45, "c - Change current song")
         self.stdscr.addstr(6,45, "p - Play/Pause")
@@ -35,23 +43,28 @@ class FrontEnd:
         self.updateSong()
         self.stdscr.refresh()
         while True:
+          #gets user input
             c = self.stdscr.getch()
+	    #used to escape or quit the current window
             if c == 27:
                 self.quit()
+	    #used to pause the song
             elif c == ord('p'):
                 self.player.pause()
+            #used to change the song
             elif c == ord('c'):
                 self.changeSong()
                 self.updateSong()
                 self.stdscr.touchwin()
                 self.stdscr.refresh()
+	    #used to update the song information
             elif c == ord('l'):
                 self.updateSong()
-                 
+    #Displays current playing song information. Used to update the song information           
     def updateSong(self):
         self.stdscr.addstr(15,45, "                                        ")
         self.stdscr.addstr(15,45, "Now playing: " + self.player.getCurrentSong())
-
+    #Provides the user with the ability to change the current song that is being played. User can select any song from the library
     def changeSong(self):
         changeWindow = curses.newwin(5, 40, 5, 50)
         changeWindow.border()
@@ -65,8 +78,7 @@ class FrontEnd:
         self.stdscr.refresh()
         self.player.stop()
         self.player.play(path.decode(encoding="utf-8"))
-        
-
+    #used to quit or escape the player
     def quit(self):
         self.player.stop()
         exit()
