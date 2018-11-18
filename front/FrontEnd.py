@@ -88,6 +88,12 @@ class FrontEnd:
         del changeWindow
         self.stdscr.touchwin()
         self.stdscr.refresh()
+        exists = 0
+        for f in liblist:
+            if (f==path): 
+                   exists = exists + 1
+        if exists == 0:
+            raise CLI_Audio_File_Exception("The file can not be played for some reason.")	
         self.player.stop()
         self.player.play("./media/" + path.decode(encoding="utf-8"))
         
