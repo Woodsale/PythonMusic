@@ -28,7 +28,7 @@ class FrontEnd:
         if (height<20):
             raise CLI_Audio_Screen_Size_Exception("Screen size is too small. Increase the height of the screen to continue")
         if (width<90):
-            raise CLI_Audio_Scr
+            raise CLI_Audio_Screen_Size_Exception("Screen size is too small. Increase the width of the screen to continue")
         self.stdscr.addstr(0,0, "cli-audio",curses.A_REVERSE)
         self.stdscr.addstr(5,45, "c - Change current song")
         self.stdscr.addstr(6,45, "p - Play/Pause")
@@ -88,12 +88,6 @@ class FrontEnd:
         del changeWindow
         self.stdscr.touchwin()
         self.stdscr.refresh()
-        exists = 0
-        for f in liblist:
-            if (f==path): 
-                   exists = exists + 1
-        if exists == 0:
-            raise CLI_Audio_File_Exception("The file can not be played for some reason.")	
         self.player.stop()
         self.player.play("./media/" + path.decode(encoding="utf-8"))
         
