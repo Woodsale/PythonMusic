@@ -9,12 +9,16 @@ from CLIexceptions.CLI_Audio_Exception import CLI_Audio_Screen_Size_Exception
 import os
 from os import listdir
 
+#Nick Pydyn
+#Nick Cone
+#Alex Woods
+
 class FrontEnd:
 
     #Class constructor. Takes Self and Player as parameters
     def __init__(self, player):
         self.player = player
-        self.player.play("./media/music1.wav")
+        #self.player.play("./media/music1.wav")
         curses.wrapper(self.menu)
 
     #Creates the menu for the GUI. Adds Functionality for buttons used in the menu.
@@ -35,9 +39,11 @@ class FrontEnd:
         self.stdscr.addstr(7,45, "l - Play library on playlist")
         self.stdscr.addstr(9,45, "ESC - Quit")
 
+        #lib contains the root of the the media directory, which are saved to the list liblist
         lib = "./media"
         liblist = os.listdir(lib)
         y = 6
+        #writes each file in the media folder to the screen
         for mus in liblist:
             self.stdscr.addstr(y,10,mus)
             y = y+1
@@ -60,7 +66,7 @@ class FrontEnd:
                 self.updateSong()
                 self.stdscr.touchwin()
                 self.stdscr.refresh()
-            #used to update the play playlist
+            #plays all songs in the media folder in a playlist
             elif c == ord('l'):
                 for mus in liblist:
                     self.player.stop()
@@ -68,6 +74,8 @@ class FrontEnd:
                     updateSong()
                     self.stdscr.touchwin()
                     self.stdscr.refresh()
+                    #while the player is outputing... listen. (do nothing)
+                    #ends when file has finished playing for next file to be read and played
                     while self.player.stream.output:
                         listen = True
 
